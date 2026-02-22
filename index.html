@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marketplace Sederhana</title>
+    <!-- Menggunakan Tailwind CSS untuk styling cepat -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Icon Library -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="bg-gray-100 font-sans">
+
+    <!-- Navbar -->
+    <nav class="bg-white shadow-md sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <a href="#" class="text-2xl font-bold text-blue-600">MarketPlace</a>
+            
+            <div class="w-1/3 relative">
+                <input type="text" placeholder="Cari produk..." class="w-full border border-gray-300 rounded-full py-2 px-4 focus:outline-none focus:border-blue-500">
+            </div>
+
+            <div class="flex items-center space-x-6">
+                <button class="relative text-gray-600 hover:text-blue-600">
+                    <i class="fas fa-shopping-cart text-xl"></i>
+                    <span id="cart-count" class="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">0</span>
+                </button>
+                <a href="#" class="text-gray-600 hover:text-blue-600">Masuk</a>
+                <a href="#" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">Daftar</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="bg-blue-600 text-white py-16 text-center">
+        <h1 class="text-4xl font-bold mb-4">Temukan Barang Impianmu</h1>
+        <p class="text-lg mb-8">Harga murah, kualitas terpercaya.</p>
+        <button class="bg-white text-blue-600 px-6 py-3 rounded-full font-semibold hover:bg-gray-200">Belanja Sekarang</button>
+    </div>
+
+    <!-- Kategori -->
+    <div class="container mx-auto px-4 py-8">
+        <h2 class="text-xl font-bold mb-4">Kategori Populer</h2>
+        <div class="flex space-x-4 overflow-x-auto pb-4">
+            <div class="min-w-[100px] bg-white p-4 rounded-lg shadow text-center cursor-pointer hover:shadow-lg transition">
+                <i class="fas fa-mobile-alt text-3xl text-blue-500 mb-2"></i>
+                <p>Elektronik</p>
+            </div>
+            <div class="min-w-[100px] bg-white p-4 rounded-lg shadow text-center cursor-pointer hover:shadow-lg transition">
+                <i class="fas fa-tshirt text-3xl text-pink-500 mb-2"></i>
+                <p>Fashion</p>
+            </div>
+            <div class="min-w-[100px] bg-white p-4 rounded-lg shadow text-center cursor-pointer hover:shadow-lg transition">
+                <i class="fas fa-couch text-3xl text-yellow-500 mb-2"></i>
+                <p>Rumah</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Daftar Produk -->
+    <div class="container mx-auto px-4 py-8">
+        <h2 class="text-2xl font-bold mb-6">Produk Terbaru</h2>
+        <div id="product-list" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            <!-- Produk akan di-generate oleh JavaScript -->
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-8 mt-12">
+        <div class="container mx-auto px-4 text-center">
+            <p>&copy; 2023 MarketPlace. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript Logic -->
+    <script>
+        // Data Produk Dummy (Biasanya ini datang dari Database)
+        const products = [
+            { id: 1, name: "Smartphone X", price: 3000000, image: "https://source.unsplash.com/300x300/?smartphone" },
+            { id: 2, name: "Kemeja Pria", price: 150000, image: "https://source.unsplash.com/300x300/?shirt" },
+            { id: 3, name: "Sepatu Sneakers", price: 500000, image: "https://source.unsplash.com/300x300/?shoes" },
+            { id: 4, name: "Laptop Kantor", price: 8000000, image: "https://source.unsplash.com/300x300/?laptop" },
+            { id: 5, name: "Kacamata Hitam", price: 75000, image: "https://source.unsplash.com/300x300/?glasses" },
+            { id: 6, name: "Tas Ransel", price: 200000, image: "https://source.unsplash.com/300x300/?backpack" },
+        ];
+
+        const productList = document.getElementById('product-list');
+        const cartCount = document.getElementById('cart-count');
+        let count = 0;
+
+        // Fungsi menampilkan produk
+        function renderProducts() {
+            products.forEach(product => {
+                const card = document.createElement('div');
+                card.className = 'bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition duration-300';
+                card.innerHTML = `
+                    <img src="${product.image}" alt="${product.name}" class="w-full h-48 object-cover">
+                    <div class="p-4">
+                        <h3 class="text-lg font-semibold text-gray-800">${product.name}</h3>
+                        <p class="text-gray-500 text-sm mt-1">Terjual 100+</p>
+                        <div class="flex justify-between items-center mt-4">
+                            <span class="text-blue-600 font-bold">Rp ${product.price.toLocaleString()}</span>
+                            <button onclick="addToCart()" class="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700 transition">Beli</button>
+                        </div>
+                    </div>
+                `;
+                productList.appendChild(card);
+            });
+        }
+
+        // Fungsi simulasi tambah ke keranjang
+        function addToCart() {
+            count++;
+            cartCount.innerText = count;
+            alert("Produk ditambahkan ke keranjang!");
+        }
+
+        // Jalankan fungsi
+        renderProducts();
+    </script>
+</body>
+</html>
